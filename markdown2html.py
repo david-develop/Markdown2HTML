@@ -35,7 +35,7 @@ if __name__ == "__main__":
         all_txt = f.read()
         all_txt_list = all_txt.split('\n')
         final_txt = ''
-        print(all_txt_list)
+
         for idx, line in enumerate(all_txt_list):
 
             if line != '' and line[0] == '#':
