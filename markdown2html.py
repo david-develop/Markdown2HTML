@@ -37,6 +37,7 @@ if __name__ == "__main__":
         final_txt = ''
 
         for idx, line in enumerate(txt_list):
+            spe_char_list = ['#', '-', '*']
 
             if line != '':
                 first_char = line[0]
@@ -71,6 +72,21 @@ if __name__ == "__main__":
 
                     try:
                         if txt_list[idx + 1][0] != first_char:
+                            final_txt += '{}\n'.format(html_list_o_end)
+                    except IndexError:
+                        final_txt += '{}\n'.format(html_list_o_end)
+
+                elif first_char not in spe_char_list:
+                    html_list_o = '<p>'
+                    html_list_o_end = '</p>'
+
+                    if idx == 0 or (txt_list[idx - 1] == '' and txt_list[idx - 1] is not None) or (txt_list[idx - 1] and txt_list[idx - 1][0] in spe_char_list):
+                        final_txt += '{}\n'.format(html_list_o)
+                    
+                    final_txt += line.strip() + '\n'
+
+                    try:
+                        if txt_list[idx + 1][0] in spe_char_list:
                             final_txt += '{}\n'.format(html_list_o_end)
                     except IndexError:
                         final_txt += '{}\n'.format(html_list_o_end)
