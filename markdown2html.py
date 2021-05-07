@@ -79,6 +79,7 @@ if __name__ == "__main__":
                 elif first_char not in spe_char_list:
                     html_list_o = '<p>'
                     html_list_o_end = '</p>'
+                    html_br = '<br/>'
 
                     if idx == 0 or (txt_list[idx - 1] == '' and
                                     txt_list[idx - 1] is not None) or\
@@ -91,6 +92,8 @@ if __name__ == "__main__":
                     try:
                         if txt_list[idx + 1][0] in spe_char_list:
                             final_txt += '{}\n'.format(html_list_o_end)
+                        elif txt_list[idx + 1][0] not in spe_char_list:
+                            final_txt += '{}\n'.format(html_br)
                     except IndexError:
                         final_txt += '{}\n'.format(html_list_o_end)
 
