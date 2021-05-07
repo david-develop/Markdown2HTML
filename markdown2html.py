@@ -33,44 +33,49 @@ if __name__ == "__main__":
 
     with open(readme_file, encoding="utf-8") as f:
         all_txt = f.read()
-        all_txt_list = all_txt.split('\n')
+        txt_list = all_txt.split('\n')
         final_txt = ''
 
-        for idx, line in enumerate(all_txt_list):
+        for idx, line in enumerate(txt_list):
 
-            if line != '' and line[0] == '#':
-                count = count_numchar(line, '#')
-                if count > 0:
-                    line = line.lstrip('#')
-                    html_tag_b = '<h{}>'.format(count)
-                    html_tag_e = '</h{}>'.format(count)
+            if line != '':
+                first_char = line[0]
+                if first_char == '#':
+                    count = count_numchar(line, '#')
+                    if count > 0:
+                        line = line.lstrip('#')
+                        html_t_b = '<h{}>'.format(count)
+                        html_t_e = '</h{}>'.format(count)
 
-                    result_line = html_tag_b + line.strip() + html_tag_e + '\n'
-                    final_txt += result_line
-                else:
-                    final_txt += line
+                        html_f = html_t_b + line.strip() + html_t_e + '\n'
+                        final_txt += html_f
+                    else:
+                        final_txt += line
 
-            elif line != '' and line[0] == '-':
-                if (all_txt_list[idx - 1] and all_txt_list[idx - 1][0] != '-')\
-                    or (all_txt_list[idx - 1] == '' and
-                        all_txt_list[idx - 1] is not None) or\
-                        idx == 0:
-                    final_txt += '<ul>\n'
+                elif first_char == '-' or first_char == '*':
+                    html_list_o = '<ul>' if first_char == '-' else '<ol>'
+                    html_list_o_end = '</ul>' if first_char == '-' else '</ol>'
 
-                html_tag_b = '<li>'
-                html_tag_e = '</li>'
-                line = line.lstrip('-')
+                    if (txt_list[idx - 1] and txt_list[idx - 1][0] !=
+                        first_char) or (txt_list[idx - 1] == '' and
+                                        txt_list[idx - 1] is not None) or\
+                            idx == 0:
+                        final_txt += '{}\n'.format(html_list_o)
 
-                result_line = html_tag_b + line.strip() + html_tag_e + '\n'
-                final_txt += result_line
+                    html_t_b = '<li>'
+                    html_t_e = '</li>'
+                    line = line.lstrip(first_char)
 
-                try:
-                    if all_txt_list[idx + 1][0] != '-':
-                        final_txt += '</ul>\n'
-                except IndexError:
-                    final_txt += '</ul>\n'
+                    html_f = html_t_b + line.strip() + html_t_e + '\n'
+                    final_txt += html_f
 
-            elif line == '':
+                    try:
+                        if txt_list[idx + 1][0] != first_char:
+                            final_txt += '{}\n'.format(html_list_o_end)
+                    except IndexError:
+                        final_txt += '{}\n'.format(html_list_o_end)
+
+            else:
                 final_txt += '\n'
 
     with open(output_file, 'w') as f:
